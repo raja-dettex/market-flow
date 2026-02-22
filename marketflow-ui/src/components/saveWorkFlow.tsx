@@ -21,8 +21,10 @@ import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import type { Status } from "@/types/workflow.types"
 const allStatus = ["active", "paused", "drift"]
-export function SaveWorkflow({onSave} : {onSave: (name: string, id: string, status: Status, cancelled: boolean) => void}) {
+const triggers = ['price-trigger', 'time-trigger']
+export function SaveWorkflow({onSave} : {onSave: (name: string, id: string, status: Status, triggerType: string, cancelled: boolean) => void}) {
     const [name, setName] = useState("");
+    const [triggerType, setTriggerType] = useState(triggers[1]);
     const [status, setStatus] = useState<Status>("active")
     return (
     <Dialog open={true}>
@@ -41,9 +43,21 @@ export function SaveWorkflow({onSave} : {onSave: (name: string, id: string, stat
               <Input id="name-1" name="name" value={name} onChange={e => setName(e.target.value)}/>
             </Field>
           </FieldGroup>
-          <Select value={status} onValueChange={(v) => setStatus(v as Status)}>
+          <Select value={triggerType} onValueChange={(v) => setTriggerType(v)}>
             <SelectTrigger id="trigger-type" className="w-full">
               <SelectValue placeholder="Select a trigger" />
+            </SelectTrigger>
+            <SelectContent>
+              {triggers.map(trigger => (
+                <SelectItem key={trigger} value={trigger}>
+                  {trigger}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select value={status} onValueChange={(v) => setStatus(v as Status)}>
+            <SelectTrigger id="trigger-type" className="w-full">
+              <SelectValue placeholder="Select a status" />
             </SelectTrigger>
             <SelectContent>
               {allStatus.map(status => (
@@ -55,9 +69,9 @@ export function SaveWorkflow({onSave} : {onSave: (name: string, id: string, stat
           </Select>
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="outline" onClick={()=>onSave("", "", status, true)}>Cancel</Button>
+              <Button variant="outline" onClick={()=>onSave("", "", status, triggerType, true)}>Cancel</Button>
             </DialogClose>
-            <Button type="submit" onClick={()=> onSave(name, Math.random().toString(), status, false)}>Save changes</Button>
+            <Button type="submit" onClick={()=> onSave(name, Math.random().toString(), status, triggerType, false)}>Save changes</Button>
           </DialogFooter>
         </DialogContent>
       </form>
