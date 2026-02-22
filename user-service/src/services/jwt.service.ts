@@ -35,7 +35,7 @@ export const buildJwtConfigFromEnv = (): JwtServiceConfig => ({
   accessTokenSecret: requiredEnv("JWT_ACCESS_SECRET")??'accesssecret',
   refreshTokenSecret: requiredEnv("JWT_REFRESH_SECRET")??'refreshsercret',
   accessTokenExpiresIn: 900,
-  refreshTokenExpiresIn: 2592000,
+  refreshTokenExpiresIn: 2592000, 
   issuer: process.env.JWT_ISSUER??"mlmflow",
   audience: process.env.JWT_AUDIENCE??"audience",
 });
@@ -44,7 +44,7 @@ export class JwtService implements IJwtService {
   private readonly accessOptions: SignOptions;
   private readonly refreshOptions: SignOptions;
 
-  constructor(private readonly config: JwtServiceConfig) {
+  constructor(private readonly config: JwtServiceConfig) {  
     this.accessOptions = {
       expiresIn: config.accessTokenExpiresIn,
       issuer: config.issuer,

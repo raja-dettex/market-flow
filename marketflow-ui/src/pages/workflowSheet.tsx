@@ -120,7 +120,7 @@ const WorkflowSheet = () => {
         />
       </div>
     </div>
-    {toBeCreated && <SaveWorkflow onSave={async (name, id, status, cancelled) => {
+    {toBeCreated && <SaveWorkflow onSave={async (name, id, status, triggerType, cancelled) => {
       // if existing workflow update it 
       if(cancelled) { 
         navigate('/dashboard')
@@ -147,7 +147,7 @@ const WorkflowSheet = () => {
         id,
         name,
         status,
-        triggerType: 'time-trigger',
+        triggerType,
         updatedAt: 'now',
         nodes,
         edges

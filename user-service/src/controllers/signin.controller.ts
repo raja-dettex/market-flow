@@ -9,9 +9,9 @@ import { buildJwtConfigFromEnv, JwtService } from "../services/jwt.service";
 import { JwtPayload } from "jsonwebtoken";
 
 
-const CLIENTID = process.env.CLIENT_ID??'';
+const CLIENTID = process.env.CLIENT_ID || ""
 
-const CLIENT_SECRET = process.env.CLIENT_SECRET??''
+const CLIENT_SECRET = process.env.CLIENT_SECRET || "";
 const userRepository = new UserRepository();
 const userService = new UserService(userRepository);
 const authService = new AuthService(userRepository, userService);
@@ -25,9 +25,9 @@ passport.use(new GoogleStrategy({
   async (accessToken, refreshToken, profile, done) => { 
     console.log(accessToken);
     console.log(refreshToken);
-    console.log(profile);
+    console.log(profile); 
     const id = profile.id; 
-    const newUser: IUserDTO = { 
+    const newUser: IUserDTO = {   
       name: profile.displayName,
       email: profile._json.email??'',
       googleSSOId:id,
